@@ -1,0 +1,114 @@
+//basic page ui
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+              padding: const EdgeInsets.only(left: 1),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.account_circle)),
+                  Expanded(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.account_circle)),
+                  ),
+                ],
+              )),
+          actions: [
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.account_circle)),
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.account_circle)),
+          ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.deepPurpleAccent,
+              Colors.pink,
+              Colors.deepPurpleAccent,
+            ])),
+          ),
+          centerTitle: true,
+          title: const Text(
+            'Flutter Demo',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+        ),
+        body: Center(
+          child: ElevatedButton(
+            child: Text('Click Me!'),
+            onPressed: () {
+              buildDialog(context);
+            },
+          ),
+        ));
+  }
+
+  void buildDialog(BuildContext context) {
+    final AlertDialog alert = AlertDialog(
+      title: const Text("Dialog Title"),
+      content: Container(
+        height: 150,
+        child: Column(
+          children: [
+            Divider(color: Colors.black),
+            Text("Dialog Text you can type AnyThing"),
+            SizedBox(height: 7),
+            SizedBox(
+              width: double.infinity,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                color: Colors.red,
+                child: Text(
+                  "Close !",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      //const Text( "This Is Dialog Text ,Click Out To Pop The Dialog !"),
+    );
+    showDialog(
+        barrierColor: Colors.red.withOpacity(0.8),
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext ctx) {
+          return alert;
+        });
+  }
+}

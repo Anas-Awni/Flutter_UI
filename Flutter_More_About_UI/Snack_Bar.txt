@@ -1,0 +1,61 @@
+//basic page ui
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> {
+  String str = "Flutter Demo";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Demo'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text("Show SnackBar"),
+          onPressed: () {
+            setState(() {
+              str = "Flutter Demo 2";
+            });
+            final sBar = SnackBar(
+              action: SnackBarAction(
+                textColor: Colors.black,
+                label: "Undo!",
+                onPressed: () {},
+              ),
+              content: Text("Snack Bar Text"),
+              duration: Duration(seconds: 8),
+              backgroundColor: Colors.red,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(sBar);
+          },
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,54 @@
+//basic page ui
+import 'dart:io';
+import 'package:flutter/material.dart';
+//import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+//import 'package:image_picker/image_picker.dart';
+//import 'dart:async';
+import 'package:percent_indicator/percent_indicator.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Container(
+          height: 500,
+          width: double.infinity,
+          child: InteractiveViewer(
+            boundaryMargin: const EdgeInsets.all(42),
+            panEnabled: true,
+            scaleEnabled: true,
+            constrained: false,
+            minScale: 0.3,
+            maxScale: 4,
+            child: Image.asset('images/q3.jpg', fit: BoxFit.cover),
+          ),
+        ),
+      ),
+    );
+  }
+}

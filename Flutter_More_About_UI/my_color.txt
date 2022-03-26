@@ -1,0 +1,19 @@
+// link with Inherted Widget and context
+import 'package:flutter/material.dart';
+
+class MyColor extends InheritedWidget {
+  const MyColor({
+    Key? key,
+    required Widget child,
+    required this.color,
+  }) : super(key: key, child: child);
+
+  final Color color;
+  @override
+  bool updateShouldNotify(MyColor oldWidget) {
+    return color != oldWidget.color;
+  }
+
+  static MyColor of(context) =>
+      context.dependOnInheritedWidgetOfExactType<MyColor>();
+}

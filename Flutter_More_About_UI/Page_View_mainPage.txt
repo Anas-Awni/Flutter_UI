@@ -1,0 +1,327 @@
+//basic page ui
+import 'package:flutter/material.dart';
+import 'main_splash_screen.dart';
+import 'p_view.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+void main() => runApp(PView());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
+      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
+      darkTheme:
+          ThemeData(primaryColor: Colors.blue, canvasColor: Colors.amber),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _x = GlobalKey<ScaffoldState>();
+  String str = 'Flutter Demo2';
+  late int _currentIndex;
+  List imgList = [
+    'images/s1.jpg',
+    'images/s2.jpg',
+    'images/s3.jpg',
+  ];
+
+  int _radioValue = 0;
+  late String result;
+  late Color resultColor;
+
+  bool js = false;
+  bool cSharp = false;
+  bool python = false;
+
+  String get txt {
+    String str = " You Selected:\n";
+    if (js == true) str += "JavaScript\n";
+    if (cSharp == true) str += "C#\n";
+    if (python == true)
+      str += "Python\n";
+    else
+      str += "None\n";
+
+    return str;
+  }
+
+  ThemeMode tm = ThemeMode.light;
+  bool _swVal = false;
+
+  late String _selectedLetter;
+  List _letterList = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
+      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
+      darkTheme:
+          ThemeData(primaryColor: Colors.blue, canvasColor: Colors.amber),
+      home: Scaffold(
+        key: _x,
+        appBar: AppBar(
+          leading: Padding(
+              padding: const EdgeInsets.only(left: 1),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.account_circle)),
+                  Expanded(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.account_circle)),
+                  ),
+                ],
+              )),
+          actions: [
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.account_circle)),
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.account_circle)),
+          ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.deepPurpleAccent,
+              Colors.pink,
+              Colors.deepPurpleAccent,
+            ])),
+          ),
+          centerTitle: true,
+          title: const Text(
+            'Flutter Demo',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
+          ),
+        ),
+        body: null,
+      ),
+    );
+  }
+
+  ListView buildExpansionTile() {
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: ExpansionTile(
+            backgroundColor: Colors.amber,
+            leading: Icon(Icons.perm_identity),
+            title: Text("Account"),
+            children: [
+              Divider(color: Colors.grey),
+              Card(
+                color: Colors.teal,
+                child: ListTile(
+                  leading: Icon(Icons.add),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  title: Text("Sign Up!"),
+                  subtitle: Text("Where you can Register An Account "),
+                  onTap: buildSnackBar,
+                ),
+              ),
+              Card(
+                color: Colors.teal,
+                child: ListTile(
+                  leading: Icon(Icons.account_circle),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  title: Text("Sign In!"),
+                  subtitle: Text("Where you can Login Your Account "),
+                  onTap: buildSnackBar,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: ExpansionTile(
+            backgroundColor: Colors.amber,
+            leading: Icon(Icons.message),
+            title: Text("More Info"),
+            children: [
+              Divider(color: Colors.grey),
+              Card(
+                color: Colors.teal,
+                child: ListTile(
+                  leading: Icon(Icons.phone),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  title: Text("Contact Us!"),
+                  subtitle: Text("Where you can call Us "),
+                  onTap: buildSnackBar,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void buildSnackBar() {
+    final sBar = SnackBar(
+      action: SnackBarAction(
+        textColor: Colors.black,
+        label: "Undo!",
+        onPressed: () {},
+      ),
+      content: Text("Snack Bar Text"),
+      duration: Duration(seconds: 8),
+      backgroundColor: Colors.red,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+    );
+    _x.currentState!.showSnackBar(sBar);
+  }
+
+  Center buildDropdownButton() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Select a Letter!'),
+          const SizedBox(width: 10),
+          DropdownButton(
+            hint: const Text('A!!!'),
+            value: _selectedLetter,
+            items: _letterList.map((item) {
+              return DropdownMenuItem(
+                child: Text(item),
+                value: item,
+              );
+            }).toList(),
+            onChanged: (newVal) {
+              setState(() {
+                _selectedLetter = newVal.toString();
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Center buildSwitch() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(40),
+            child: Text("Light"),
+          ),
+          Switch(
+            value: _swVal,
+            onChanged: (bool value) {
+              setState(() {
+                _swVal = value;
+                if (_swVal == false)
+                  tm = ThemeMode.light;
+                else
+                  tm = ThemeMode.dark;
+              });
+            },
+            activeColor: Colors.black,
+            inactiveThumbColor: Colors.blue,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(40),
+            child: Text("Dark"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding buildCheckbox(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        children: [
+          Text("Select any Programming Languages You Know"),
+          Row(
+            children: [
+              Checkbox(
+                value: js,
+                onChanged: (value) {
+                  setState(() {
+                    js = value!;
+                  });
+                },
+              ),
+              Text("JS"),
+            ],
+          ),
+          CheckboxListTile(
+            value: cSharp,
+            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (value) {
+              setState(() {
+                cSharp = value!;
+              });
+            },
+            title: Text("C#"),
+          ),
+          Row(
+            children: [
+              Checkbox(
+                value: python,
+                onChanged: (value) {
+                  setState(() {
+                    python = value!;
+                  });
+                },
+              ),
+              Text("Python"),
+            ],
+          ),
+          RaisedButton(
+              child: Text("Apply"),
+              onPressed: () {
+                var ad = AlertDialog(
+                  title: Text("Thanks You For Applying!"),
+                  content: Text(txt),
+                );
+                showDialog(context: context, builder: (x) => ad);
+              })
+          //showDialog(context: context, builder: (x) => ad); best sd
+        ],
+      ),
+    );
+  }
+
+  RadioListTile buildRadioListTile(val, txt, subtxt) {
+    return RadioListTile(
+      value: val,
+      groupValue: _radioValue,
+      controlAffinity: ListTileControlAffinity.leading,
+      onChanged: (value) {
+        setState(() {
+          _radioValue = value;
+        });
+      },
+      title: Text(txt),
+      subtitle: Text(
+        subtxt,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}

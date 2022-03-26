@@ -1,0 +1,75 @@
+//basic page ui
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _x = GlobalKey<ScaffoldState>();
+  String str = 'Flutter Demo';
+  List imgList = [
+    'images/s1.jpg',
+    'images/s2.jpg',
+    'images/s3.jpg',
+  ];
+  int _radioValue = 0;
+  late String result;
+  late Color resultColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _x,
+      appBar: AppBar(
+        title: Text('Flutter Demo '),
+      ),
+      body: Container(
+        color: _radioValue == 0 ? Colors.brown : Colors.green,
+        padding: EdgeInsets.all(32),
+        child: Column(children: [
+          buildRadioListTile(0, "Brown", "Change bg To Brown"),
+          buildRadioListTile(1, "Green", "Change bg To Green"),
+        ]),
+      ),
+    );
+  }
+
+  RadioListTile buildRadioListTile(val, txt, subtxt) {
+    return RadioListTile(
+      value: val,
+      groupValue: _radioValue,
+      controlAffinity: ListTileControlAffinity.leading,
+      onChanged: (value) {
+        setState(() {
+          _radioValue = value;
+        });
+      },
+      title: Text(txt),
+      subtitle: Text(
+        subtxt,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}

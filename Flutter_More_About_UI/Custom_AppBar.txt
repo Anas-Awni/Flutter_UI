@@ -1,0 +1,79 @@
+//basic page ui
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 100,
+              leading: Padding(
+                  padding: const EdgeInsets.only(left: 1),
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.account_circle)),
+                      Expanded(
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.account_circle)),
+                      ),
+                    ],
+                  )),
+              actions: [
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.account_circle)),
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.account_circle)),
+              ],
+              flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  Colors.deepPurpleAccent,
+                  Colors.pink,
+                  Colors.deepPurpleAccent,
+                ])),
+              ),
+              centerTitle: true,
+              title: const Text(
+                'Flutter Demo',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([]),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

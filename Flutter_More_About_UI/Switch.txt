@@ -1,0 +1,183 @@
+//basic page ui
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+void main() => runApp(MyHomePage());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
+      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
+      darkTheme:
+          ThemeData(primaryColor: Colors.blue, canvasColor: Colors.black),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _x = GlobalKey<ScaffoldState>();
+  String str = 'Flutter Demo';
+  List imgList = [
+    'images/s1.jpg',
+    'images/s2.jpg',
+    'images/s3.jpg',
+  ];
+  int _radioValue = 0;
+  late String result;
+  late Color resultColor;
+  bool js = false;
+  bool cSharp = false;
+  bool python = false;
+
+  String get txt {
+    String str = " You Selected:\n";
+    if (js == true) str += "JavaScript\n";
+    if (cSharp == true) str += "C#\n";
+    if (python == true)
+      str += "Python\n";
+    else
+      str += "None\n";
+
+    return str;
+  }
+
+  ThemeMode tm = ThemeMode.light;
+  bool _swVal = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: tm,
+      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
+      darkTheme: ThemeData(primaryColor: Colors.blue, canvasColor: Colors.pink),
+      home: Scaffold(
+        key: _x,
+        appBar: AppBar(
+          title: Text('Flutter Demo '),
+        ),
+        body: buildSwitch(),
+      ),
+    );
+  }
+
+  Center buildSwitch() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(40),
+            child: Text("Light"),
+          ),
+          Switch(
+            value: _swVal,
+            onChanged: (bool value) {
+              setState(() {
+                _swVal = value;
+                if (_swVal == false)
+                  tm = ThemeMode.light;
+                else
+                  tm = ThemeMode.dark;
+              });
+            },
+            activeColor: Colors.black,
+            inactiveThumbColor: Colors.blue,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(40),
+            child: Text("Dark"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding buildCheckbox(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        children: [
+          Text("Select any Programming Languages You Know"),
+          Row(
+            children: [
+              Checkbox(
+                value: js,
+                onChanged: (value) {
+                  setState(() {
+                    js = value!;
+                  });
+                },
+              ),
+              Text("JS"),
+            ],
+          ),
+          CheckboxListTile(
+            value: cSharp,
+            controlAffinity: ListTileControlAffinity.leading,
+            onChanged: (value) {
+              setState(() {
+                cSharp = value!;
+              });
+            },
+            title: Text("C#"),
+          ),
+          Row(
+            children: [
+              Checkbox(
+                value: python,
+                onChanged: (value) {
+                  setState(() {
+                    python = value!;
+                  });
+                },
+              ),
+              Text("Python"),
+            ],
+          ),
+          RaisedButton(
+              child: Text("Apply"),
+              onPressed: () {
+                var ad = AlertDialog(
+                  title: Text("Thanks You For Applying!"),
+                  content: Text(txt),
+                );
+                showDialog(context: context, builder: (x) => ad);
+              })
+          //showDialog(context: context, builder: (x) => ad); best sd
+        ],
+      ),
+    );
+  }
+
+  RadioListTile buildRadioListTile(val, txt, subtxt) {
+    return RadioListTile(
+      value: val,
+      groupValue: _radioValue,
+      controlAffinity: ListTileControlAffinity.leading,
+      onChanged: (value) {
+        setState(() {
+          _radioValue = value;
+        });
+      },
+      title: Text(txt),
+      subtitle: Text(
+        subtxt,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}

@@ -1,0 +1,68 @@
+//basic page ui
+import 'package:flutter/material.dart';
+import 'package:another_flushbar/flushbar.dart';
+//import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Demo Home Page'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('Show  FlushBar'),
+          onPressed: () {
+            buildFlushBar(context);
+          },
+        ),
+      ),
+    );
+  }
+
+  void buildFlushBar(BuildContext context) {
+    Flushbar(
+      duration: Duration(seconds: 2),
+      flushbarPosition: FlushbarPosition.TOP,
+      mainButton: FlatButton(
+        child: Text("Close !"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      icon: Icon(
+        Icons.info,
+        color: Colors.white,
+      ),
+      backgroundColor: Colors.amber,
+      title: "This is title",
+      message: "This is The Message",
+      messageText: Text("This is The message",
+          style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold)),
+    ).show(context);
+  }
+}

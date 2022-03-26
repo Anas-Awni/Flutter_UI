@@ -1,0 +1,143 @@
+//basic page ui
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _x = GlobalKey<ScaffoldState>();
+  String str = 'Flutter Demo';
+  late int _currentIndex;
+  List imgList = [
+    'images/s1.jpg',
+    'images/s2.jpg',
+    'images/s3.jpg',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _x,
+      appBar: AppBar(
+        title: Text('Flutter Demo Home Page'),
+      ),
+      body: ListView(
+        children: [
+          SizedBox(height: 30),
+          Text(
+            "Slider 1: Inital Page Index 0 \n\n",
+            textAlign: TextAlign.center,
+          ),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 186,
+              initialPage: 0,
+              enlargeCenterPage: true,
+              autoPlay: true,
+              onPageChanged: (index, _) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              autoPlayInterval: Duration(seconds: 3),
+              enableInfiniteScroll: true,
+              reverse: true,
+              pauseAutoPlayOnTouch: false,
+              scrollDirection: Axis.vertical,
+            ),
+            items: imgList.map((imageUrl) {
+              return Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Image.asset(imageUrl, fit: BoxFit.fill),
+              );
+            }).toList(),
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 10,
+                height: 10,
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == 0 ? Colors.redAccent : Colors.green,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 10,
+                height: 10,
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == 1 ? Colors.redAccent : Colors.green,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 10,
+                height: 10,
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == 2 ? Colors.redAccent : Colors.green,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Text(
+            "Slider 2: Inital Page Index 1 \n\n",
+            textAlign: TextAlign.center,
+          ),
+          CarouselSlider.builder(
+            itemCount: imgList.length,
+            itemBuilder: (_, int index, int realIndex) {
+              return Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Image.asset(imgList[index], fit: BoxFit.fill),
+              );
+            },
+            options: CarouselOptions(
+              height: 186,
+              initialPage: 0,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

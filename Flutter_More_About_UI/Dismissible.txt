@@ -1,0 +1,126 @@
+//basic page ui
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
+      theme: ThemeData(primarySwatch: Colors.blue, canvasColor: Colors.white),
+      darkTheme:
+          ThemeData(primaryColor: Colors.blue, canvasColor: Colors.black),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final li = List<String>.generate(20, (index) => 'Item Num ${index + 1}');
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('demo'),
+          centerTitle: true,
+        ),
+        body: ListView.builder(
+          itemCount: li.length,
+          itemBuilder: (BuildContext context, int index) {
+            final item = li[index];
+            return Dismissible(
+              key: Key(item),
+              onDismissed: (DismissDirection dir) {
+                setState(() => li.removeAt(index));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    action: SnackBarAction(
+                      label: 'Undo!',
+                      onPressed: () => setState(() => li.insert(index, item)),
+                    ),
+                    content: Text(
+                      dir == DismissDirection.startToEnd
+                          ? '$item  Deleted'
+                          : '$item Liked',
+                    ),
+                  ),
+                );
+              },
+              confirmDismiss: (DismissDirection direction) async {
+                if (direction == DismissDirection.startToEnd)
+                  return await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Delete Confirmation'),
+                        content: Text('Are you sure you want to delete $item?'),
+                        actions: [
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red),
+                            ),
+                            onPressed: () {
+                              setState(() => li.removeAt(index));
+                              Navigator.of(context).pop(true);
+                            },
+                            child: const Text('Delete'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text('Cancel'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                else
+                  return true;
+              },
+              child: ListTile(title: Center(child: Text(item))),
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    SizedBox(width: 20),
+                    Icon(Icons.delete, color: Colors.white),
+                    Text(
+                      'Delete',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+              ),
+              secondaryBackground: Container(
+                color: Colors.green,
+                alignment: Alignment.centerRight,
+                child: const Icon(Icons.thumb_up),
+              ),
+            );
+          },
+        ));
+  }
+}
